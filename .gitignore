@@ -1,1 +1,3 @@
 /venv/
+/src/.pytest_cache/
+/.pytest_cache/

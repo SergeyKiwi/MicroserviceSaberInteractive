@@ -16,7 +16,6 @@ async def get_build_tasks(build_parameters: BuildParameters):
     build = build_parameters.build
 
     task_sequence = buildsManager.get_task_sequence(build)
-    print(build, task_sequence, buildsManager.builds_with_full_task_sequence)
 
     if task_sequence:
         return {'tasks': task_sequence}

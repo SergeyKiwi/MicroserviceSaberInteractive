@@ -1,12 +1,11 @@
 from pydantic import BaseModel
 import yaml
-import os
 from typing import List
 import logging
 
 
-def read_file_yaml(filename):
-    with open(filename) as file_yaml:
+def read_file_yaml(filepath):
+    with open(filepath) as file_yaml:
         data = yaml.safe_load(file_yaml)
         return data
 
