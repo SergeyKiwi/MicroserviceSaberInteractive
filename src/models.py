@@ -69,7 +69,8 @@ class BuildsManager:
 
             return builds_with_full_task_sequence
         except Exception as exc:
-            logging.critical("An error in constructing the task sequence. Input data error!")
+            logging.critical(
+                "An error in constructing the task sequence. Input data error!")
             return None
 
     def task_sequence(self, tasks, task, queue: List):
@@ -83,9 +84,9 @@ class BuildsManager:
             builds = self.read_file_builds()
             tasks = self.read_file_tasks()
 
-            self.builds_with_full_task_sequence = self.build_task_sequence(builds, tasks)
+            self.builds_with_full_task_sequence = self.build_task_sequence(
+                builds, tasks)
         except Exception as exc:
             logging.error(exc)
-            logging.error(msg="Error reading input data. Stopping data updates! Rollback to old data.")
-
-
+            logging.error(
+                msg="Error reading input data. Stopping data updates! Rollback to old data.")
