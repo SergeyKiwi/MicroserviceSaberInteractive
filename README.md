@@ -25,6 +25,6 @@ The settings for debugging the project are in the file **settings.py**.
 Debugging is started from a file **debug_server.py**.
 
 ## Deploying:
-The docker container is deployed on the host on port **8000**. 
+The docker container is deployed on the host on port and IP from **.env**. 
 Build image and launch a container:  
 `docker-compose up --build`
