@@ -2,7 +2,7 @@ version: '3'
 services:
  web:
    build: .
-   command: uvicorn app:app --host "${IP}" --port "${PORT}"
+   command: uvicorn src.app:app --host "${IP}" --port "${PORT}"
    volumes:
    - .:/volume
    ports:
