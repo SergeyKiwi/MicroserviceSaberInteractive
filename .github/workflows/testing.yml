@@ -1,0 +1,18 @@
+name: Testing for push
+run-name: ${{ github.actor }} test for push. Branch is ${{ github.ref }} and repository is ${{ github.repository }}.
+on: [push]
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.10'
+          architecture: 'x64'
+      - name: Install requirements
+        # Устанавливаем зависимости
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest
+  
