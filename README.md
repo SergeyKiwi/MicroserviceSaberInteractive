@@ -22,6 +22,7 @@ Task search speed - **O(1)**.
 - PyTest
 - Uvicorn
 - Docker
+- GitHub Actions
 
 ## Debugging
 
