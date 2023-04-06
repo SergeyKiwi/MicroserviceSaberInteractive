@@ -1,9 +1,6 @@
 name: Testing for push
 run-name: ${{ github.actor }} test for push. Branch is ${{ github.ref }} and repository is ${{ github.repository }}.
-on:
-  push:
-    branches:    
-      - '**'        # matches every branch
+on: [push]
 jobs:
   run_tests:
     runs-on: ubuntu-latest
