@@ -7,7 +7,7 @@ client = TestClient(app)
 def test_get_build_ok():
     build = 'front_arm'
     response = client.post("/POST/get_tasks", json={"build": build})
-    assert response.status_code == 202  # 200
+    assert response.status_code == 200
     assert type(response.json()['tasks']) == list
 
 
