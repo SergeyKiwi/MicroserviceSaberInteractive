@@ -1,8 +1,8 @@
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
-from models import BuildParameters, BuildsManager
-from settings import builds_filepath, tasks_filepath
+from src.models import BuildParameters, BuildsManager
+from src.settings import builds_filepath, tasks_filepath
 
 buildsManager = BuildsManager(builds_filepath=builds_filepath,
                               tasks_filepath=tasks_filepath)

@@ -26,7 +26,8 @@ Task search speed - **O(1)**.
 ## Debugging
 
 The settings for debugging the project are in the file **settings.py**.
-Debugging is started from a file **debug_server.py**.
+Debugging server is started:  
+`python -m src.debug_server`
 
 ## Deploying
 

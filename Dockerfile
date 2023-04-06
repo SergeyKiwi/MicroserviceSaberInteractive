@@ -1,6 +1,6 @@
 FROM python:3.10-alpine
 
-WORKDIR /app/src
+WORKDIR /app
 
 ARG IP=0.0.0.0
 ARG PORT="8000"
