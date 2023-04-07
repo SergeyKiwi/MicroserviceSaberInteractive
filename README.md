@@ -5,7 +5,7 @@
 Create a microservice **"Build System"**.
 The microservice has files in yaml format with builds and tasks.
 Tasks have dependencies.
-The service should have a single entry point **"POST/get_tasks"** and return a list of tasks sorted by dependencies on a JSON request {"build": "name"}.
+The service should have a single entry point **"POST/get_tasks"** and return a list of unique tasks sorted by dependencies on a JSON request {"build": "name"}.
 
 ## Service implementation
 

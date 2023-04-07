@@ -15,10 +15,10 @@ app = FastAPI()
 async def get_build_tasks(build_parameters: BuildParameters):
     build = build_parameters.build
 
-    task_sequence = buildsManager.get_task_sequence(build)
+    task_queue = buildsManager.get_task_queue(build)
 
-    if task_sequence:
-        return {'tasks': task_sequence}
+    if task_queue:
+        return {'tasks': task_queue}
     else:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={'Error': 'Build not found'})
 

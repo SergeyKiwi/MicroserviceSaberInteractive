@@ -21,7 +21,7 @@ class BuildsManager:
 
         self.builds = None
         self.tasks = None
-        self.builds_with_full_task_sequence = None
+        self.builds_with_full_task_queue = None
 
     def set_builds_filename(self, filename):
         self.builds_filepath = filename
@@ -47,44 +47,53 @@ class BuildsManager:
 
         return tasks
 
-    def get_task_sequence(self, build):
-        task_sequence = None
+    def get_task_queue(self, build):
+        task_queue = None
 
-        if self.builds_with_full_task_sequence:
-            task_sequence = self.builds_with_full_task_sequence.get(build)
+        if self.builds_with_full_task_queue:
+            task_queue = self.builds_with_full_task_queue.get(build)
 
-        return task_sequence
+        return task_queue
 
-    def build_task_sequence(self, builds, tasks):
+    def build_tasks_queue(self, builds, tasks):
         try:
-            builds_with_full_task_sequence = {}
+            builds_with_full_task_queue = {}
 
             for name, build_tasks in builds.items():
                 queue_task = []
 
                 for task in build_tasks:
-                    self.task_sequence(tasks, task, queue_task)
+                    self.task_queue(tasks, task, queue_task)
 
-                builds_with_full_task_sequence[name] = queue_task
+                builds_with_full_task_queue[name] = queue_task
 
-            return builds_with_full_task_sequence
+            return builds_with_full_task_queue
         except Exception as exc:
             logging.critical(
-                "An error in constructing the task sequence. Input data error!")
+                "An error in constructing the task queue. Input data error!")
             return None
 
-    def task_sequence(self, tasks, task, queue: List):
+    def task_queue(self, tasks, task, queue: List):
+        """
+        Recursively generates a sorted list for each task, taking into account dependencies
+
+        :param tasks: list of all possible tasks
+        :param task: the current task for finding dependencies
+        :param queue: sorted queue of tasks for building
+        """
         if len(tasks[task]) > 0:
             for ts in tasks[task]:
-                self.task_sequence(tasks, ts, queue)
-        queue.append(task)
+                self.task_queue(tasks, ts, queue)
+
+        if task not in queue:                
+            queue.append(task)
 
     def update_data(self):
         try:
             builds = self.read_file_builds()
             tasks = self.read_file_tasks()
 
-            self.builds_with_full_task_sequence = self.build_task_sequence(
+            self.builds_with_full_task_queue = self.build_tasks_queue(
                 builds, tasks)
         except Exception as exc:
             logging.error(exc)
