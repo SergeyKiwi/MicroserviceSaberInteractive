@@ -21,7 +21,7 @@ class BuildsManager:
 
         self.builds = None
         self.tasks = None
-        self.builds_with_full_task_queue = None
+        self.builds_with_full_task_queues = None
 
     def set_builds_filename(self, filename):
         self.builds_filepath = filename
@@ -50,30 +50,25 @@ class BuildsManager:
     def get_task_queue(self, build):
         task_queue = None
 
-        if self.builds_with_full_task_queue:
-            task_queue = self.builds_with_full_task_queue.get(build)
+        if self.builds_with_full_task_queues:
+            task_queue = self.builds_with_full_task_queues.get(build)
 
         return task_queue
 
-    def build_tasks_queue(self, builds, tasks):
-        try:
-            builds_with_full_task_queue = {}
+    def build_queues_for_builds(self, builds, tasks):
+        builds_with_full_task_queues = {}
 
-            for name, build_tasks in builds.items():
-                queue_task = []
+        for name, build_tasks in builds.items():
+            queue_task = []
 
-                for task in build_tasks:
-                    self.task_queue(tasks, task, queue_task)
+            for task in build_tasks:
+                self.build_queue_for_task(tasks, task, queue_task)
 
-                builds_with_full_task_queue[name] = queue_task
+            builds_with_full_task_queues[name] = queue_task
 
-            return builds_with_full_task_queue
-        except Exception as exc:
-            logging.critical(
-                "An error in constructing the task queue. Input data error!")
-            return None
+        return builds_with_full_task_queues
 
-    def task_queue(self, tasks, task, queue: List):
+    def build_queue_for_task(self, tasks, task, queue: List):
         """
         Recursively generates a sorted list for each task, taking into account dependencies
 
@@ -83,7 +78,7 @@ class BuildsManager:
         """
         if len(tasks[task]) > 0:
             for ts in tasks[task]:
-                self.task_queue(tasks, ts, queue)
+                self.build_queue_for_task(tasks, ts, queue)
 
         if task not in queue:                
             queue.append(task)
@@ -92,10 +87,14 @@ class BuildsManager:
         try:
             builds = self.read_file_builds()
             tasks = self.read_file_tasks()
-
-            self.builds_with_full_task_queue = self.build_tasks_queue(
-                builds, tasks)
         except Exception as exc:
             logging.error(exc)
             logging.error(
                 msg="Error reading input data. Stopping data updates! Rollback to old data.")
+        else:
+            try:
+                self.builds_with_full_task_queues = self.build_queues_for_builds(
+                    builds, tasks)
+            except Exception as exc:
+                logging.critical(
+                    "An error in constructing the task queue. Input data error! Rollback to old data. Error: {}".format(exc))
