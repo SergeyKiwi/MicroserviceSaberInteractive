@@ -1,4 +1,4 @@
-from src.models import BuildsManager
+from src.buildsmanager import BuildsManager
 import pytest
 from tempfile import NamedTemporaryFile
 

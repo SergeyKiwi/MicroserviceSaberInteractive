@@ -1,7 +1,8 @@
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
-from src.models import BuildParameters, BuildsManager
+from src.models import BuildRequest, BuildResponse
+from src.buildsmanager import BuildsManager
 from src.settings import builds_filepath, tasks_filepath
 
 buildsManager = BuildsManager(builds_filepath=builds_filepath,
@@ -12,13 +13,13 @@ app = FastAPI()
 
 
 @app.post('/POST/get_tasks')
-async def get_build_tasks(build_parameters: BuildParameters):
-    build = build_parameters.build
+async def get_build_tasks(build_request: BuildRequest):
+    build = build_request.build
 
     task_queue = buildsManager.get_task_queue(build)
 
     if task_queue:
-        return {'tasks': task_queue}
+        return BuildResponse(tasks=task_queue)
     else:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={'Error': 'Build not found'})
 
