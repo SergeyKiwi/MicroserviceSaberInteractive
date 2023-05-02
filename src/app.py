@@ -3,10 +3,10 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from src.models import BuildRequest, BuildResponse
 from src.buildsmanager import BuildsManager
-from src.settings import builds_filepath, tasks_filepath
+from src.config import BUILDS_FILEPATH, TASKS_FILEPATH
 
-buildsManager = BuildsManager(builds_filepath=builds_filepath,
-                              tasks_filepath=tasks_filepath)
+buildsManager = BuildsManager(builds_filepath=BUILDS_FILEPATH,
+                              tasks_filepath=TASKS_FILEPATH)
 buildsManager.update_data()
 
 app = FastAPI()
